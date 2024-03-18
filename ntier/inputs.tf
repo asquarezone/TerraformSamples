@@ -3,8 +3,6 @@ variable "vpc_cidr" {
   default = "10.10.0.0/16"
 }
 
-
-
 variable "subnet_names" {
   type    = list(string)
   default = ["web-1", "web-2", "app-1", "app-2", "db-1", "db-2"]
