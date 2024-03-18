@@ -13,3 +13,14 @@ variable "availability_zone_values" {
   default = ["us-east-1a", "us-east-1b", "us-east-1a", "us-east-1b", "us-east-1a", "us-east-1b"]
 
 }
+
+variable "key_pair_name" {
+  type    = string
+  default = "ansible"
+}
+
+variable "ami_id" {
+  type    = string
+  default = "ami-080e1f13689e07408"
+
+}
