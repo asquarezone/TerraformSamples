@@ -48,6 +48,7 @@ resource "aws_route_table" "public" {
   depends_on = [aws_vpc.network, aws_subnet.subnets]
 }
 
+# private route table
 resource "aws_route_table" "private" {
   vpc_id     = aws_vpc.network.id
   depends_on = [aws_vpc.network, aws_subnet.subnets]
@@ -57,3 +58,39 @@ resource "aws_route_table" "private" {
     CreatedBy   = "terraform"
   }
 }
+
+# todo: replace this ugly block
+resource "aws_route_table_association" "public1" {
+  subnet_id      = aws_subnet.subnets[0].id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "public2" {
+  subnet_id      = aws_subnet.subnets[1].id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private1" {
+  subnet_id      = aws_subnet.subnets[2].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private2" {
+  subnet_id      = aws_subnet.subnets[3].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private3" {
+  subnet_id      = aws_subnet.subnets[4].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "private4" {
+  subnet_id      = aws_subnet.subnets[5].id
+  route_table_id = aws_route_table.private.id
+}
+
+
+
+
+
