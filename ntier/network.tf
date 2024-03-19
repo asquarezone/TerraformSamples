@@ -37,7 +37,7 @@ resource "aws_internet_gateway" "ntier_igw" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.network.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = local.any_where
     gateway_id = aws_internet_gateway.ntier_igw.id
   }
   tags = {
