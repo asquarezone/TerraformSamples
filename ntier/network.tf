@@ -59,35 +59,42 @@ resource "aws_route_table" "private" {
   }
 }
 
-# todo: replace this ugly block
-resource "aws_route_table_association" "public1" {
-  subnet_id      = aws_subnet.subnets[0].id
+data "aws_subnets" "public" {
+  filter {
+    name   = "tag:Name"
+    values = var.public_subnet_names
+  }
+  filter {
+    name   = "vpc-id"
+    values = [aws_vpc.network.id]
+  }
+  depends_on = [aws_subnet.subnets]
+}
+
+resource "aws_route_table_association" "public" {
+  for_each = toset(data.aws_subnets.public.ids)
+  subnet_id      = each.key
   route_table_id = aws_route_table.public.id
+  depends_on = [ data.aws_subnets.public ]
 }
 
-resource "aws_route_table_association" "public2" {
-  subnet_id      = aws_subnet.subnets[1].id
-  route_table_id = aws_route_table.public.id
+data "aws_subnets" "private" {
+  filter {
+    name   = "tag:Name"
+    values = var.private_subnet_names
+  }
+  filter {
+    name   = "vpc-id"
+    values = [aws_vpc.network.id]
+  }
+  depends_on = [aws_subnet.subnets]
 }
 
-resource "aws_route_table_association" "private1" {
-  subnet_id      = aws_subnet.subnets[2].id
+resource "aws_route_table_association" "private" {
+  for_each = toset(data.aws_subnets.private.ids)
+  subnet_id      = each.key
   route_table_id = aws_route_table.private.id
-}
-
-resource "aws_route_table_association" "private2" {
-  subnet_id      = aws_subnet.subnets[3].id
-  route_table_id = aws_route_table.private.id
-}
-
-resource "aws_route_table_association" "private3" {
-  subnet_id      = aws_subnet.subnets[4].id
-  route_table_id = aws_route_table.private.id
-}
-
-resource "aws_route_table_association" "private4" {
-  subnet_id      = aws_subnet.subnets[5].id
-  route_table_id = aws_route_table.private.id
+  depends_on = [ data.aws_subnets.private ]
 }
 
 
@@ -116,7 +123,3 @@ resource "aws_security_group" "web_sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 }
-
-
-
-

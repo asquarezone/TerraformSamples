@@ -8,6 +8,17 @@ variable "subnet_names" {
   default = ["web-1", "web-2", "app-1", "app-2", "db-1", "db-2"]
 }
 
+variable "public_subnet_names" {
+  type    = list(string)
+  default = ["web-1", "web-2"]
+}
+
+variable "private_subnet_names" {
+  type = list(string)
+  default = [ "app-1", "app-2", "db-1", "db-2"] 
+  
+}
+
 variable "availability_zone_values" {
   type    = list(string)
   default = ["us-east-1a", "us-east-1b", "us-east-1a", "us-east-1b", "us-east-1a", "us-east-1b"]
