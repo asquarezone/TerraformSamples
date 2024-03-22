@@ -6,9 +6,9 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "dmttfstate"
-    key    = "sampleforlearning/terraform.tfstate"
-    region = "us-east-1"
+    bucket         = "dmttfstate"
+    key            = "sampleforlearning/terraform.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "dmttfstate"
   }
 }
