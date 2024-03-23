@@ -6,8 +6,15 @@ resource "aws_instance" "web" {
   vpc_security_group_ids      = ["sg-01812b8bb24c1d56e"]
   availability_zone           = "us-east-1a"
 
+}
+
+
+resource "null_resource" "web" {
+  triggers = {
+    execute = var.trigger
+  }
   connection {
-    host        = self.public_ip
+    host        = aws_instance.web.public_ip
     user        = "ubuntu"
     private_key = file("~/Downloads/ansible.pem")
   }
@@ -20,4 +27,5 @@ resource "aws_instance" "web" {
     "/tmp/installapache.sh", ]
 
   }
+  depends_on = [aws_instance.web]
 }
